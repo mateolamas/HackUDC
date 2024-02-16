@@ -4,12 +4,13 @@ const endpointUrl = apiUrl + '/api'
 
 const sendHouse = async (zone, csv) => {
   try {
+    const formData = new FormData();
+    formData.append('zone', zone);
+    formData.append('csv', csv);
+
     const response = await fetch(endpointUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ zone, csv})
+      body: formData
     });
 
     if (response.ok) {

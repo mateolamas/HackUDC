@@ -12,10 +12,8 @@ function HouseInfoForm() {
     try {
       await sendHouse(zone, csv);
       console.log("hola")
-      //setError(null);
     } catch (err) {
-      console.log("hola")
-      //setError(err.message);
+      console.log("caracola")
     }
   }
 
@@ -24,7 +22,10 @@ function HouseInfoForm() {
   }
 
   const handleCSVDrop = (e) => {
-    controlDropHouse(e, setCsv);
+    const file = e.dataTransfer.files[0];
+    if (file) {
+     setCsv(file);
+     }
   }
 
   return (
