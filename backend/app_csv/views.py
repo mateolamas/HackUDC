@@ -4,12 +4,28 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django import forms
+import pandas as pd
+
+with open('../csv/electrodatos.csv', "r") as csv_file:
+    glob = csv_file.readlines()
 
 @csrf_exempt
 def index(request):
     if request.method == 'POST':
-        return JsonResponse({'message': 'Operación exitosa'}, status=200)
+        
+        zone = request.POST.get('zone')
+        csv_file = request.FILES.get('csv')
+        
+        df = pd.read_csv(csv_file, sep=';')
+        
+        df_cut = df[['Fecha','Hora','Consumo_KWh']]
+        
+        json_data = df_cut.to_json(orient='records')
+        return JsonResponse(json_data, safe=False, status=200)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 
 
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
