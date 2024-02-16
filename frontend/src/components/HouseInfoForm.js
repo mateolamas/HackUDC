@@ -13,7 +13,7 @@ function HouseInfoForm() {
     e.preventDefault();
     try {
       const fields = await sendHouse(zone, csv);
-      setRespondido = true;
+      setRespondido(true);
 
       setChartData(processDataForChart(fields));
 
