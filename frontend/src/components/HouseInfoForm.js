@@ -42,7 +42,7 @@ function HouseInfoForm() {
   };
 
   const handleCSVChange = (e) => {
-    const file = e.dataTransfer.files[0];
+    const file = e.target.files[0];
     if (file) {
      setCsv(file);
     }
