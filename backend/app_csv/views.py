@@ -6,19 +6,36 @@ import pandas as pd
 import requests
 from datetime import datetime
 
+
 df = pd.read_csv("../csv/electrodatos.csv")
 consumo_por_hora = df.groupby(df['Hora'])['Consumo'].mean()
 
 # MockUp
-csv_1 = {'fecha' : '14/02/2023', 'consumo_total': 1.765 }
-csv_2 = {'fecha' : '13/02/2023', 'consumo_total': 1.433 }
-csv_3 = {'fecha' : '12/02/2023', 'consumo_total': 3.332 }
-csv_4 = {'fecha' : '11/02/2023', 'consumo_total': 2.566 }
-csv_5 = {'fecha' : '10/02/2023', 'consumo_total': 1.366 }
-csv_6 = {'fecha' : '09/02/2023', 'consumo_total': 3.066 }
-csv_7 = {'fecha' : '08/02/2023', 'consumo_total': 2.342 }
-csv_user = {}
+csv_dia_1 = {'fecha' : '14/02/2023', 'consumo_total': 1.765 }
+csv_dia_2 = {'fecha' : '13/02/2023', 'consumo_total': 1.433 }
+csv_dia_3 = {'fecha' : '12/02/2023', 'consumo_total': 3.332 }
+csv_dia_4 = {'fecha' : '11/02/2023', 'consumo_total': 2.566 }
+csv_dia_5 = {'fecha' : '10/02/2023', 'consumo_total': 1.366 }
+csv_dia_6 = {'fecha' : '09/02/2023', 'consumo_total': 3.066 }
+csv_dia_7 = {'fecha' : '08/02/2023', 'consumo_total': 2.342 }
 
+csv_mes_1 = {'fecha' : '02/2023', 'consumo_total': 1.865 }
+csv_mes_2 = {'fecha' : '01/2023', 'consumo_total': 2.233 }
+csv_mes_3 = {'fecha' : '12/2022', 'consumo_total': 1.332 }
+csv_mes_4 = {'fecha' : '11/2022', 'consumo_total': 4.066 }
+csv_mes_5 = {'fecha' : '10/2022', 'consumo_total': 2.166 }
+csv_mes_6 = {'fecha' : '09/2022', 'consumo_total': 1.066 }
+csv_mes_7 = {'fecha' : '08/2022', 'consumo_total': 3.342 }
+
+csv_ano_1 = {'fecha' : '2023', 'consumo_total': 2.365 }
+csv_ano_2 = {'fecha' : '2022', 'consumo_total': 4.233 }
+csv_ano_3 = {'fecha' : '2021', 'consumo_total': 0.932 }
+csv_ano_4 = {'fecha' : '2020', 'consumo_total': 1.266 }
+csv_ano_5 = {'fecha' : '2019', 'consumo_total': 3.216 }
+csv_ano_6 = {'fecha' : '2018', 'consumo_total': 0.366 }
+csv_ano_7 = {'fecha' : '2017', 'consumo_total': 2.614 }
+
+csv_user = {}
 
 def llamada_API(dia):
     dia_obj = datetime.strptime(dia, '%d/%m/%Y')
@@ -42,8 +59,15 @@ def index(request):
     global csv_user
 
     if request.method == 'GET':
+        param = request.GET.get('selected')
+
+        if param == 'dia':
+            lista_datos = [csv_user, csv_dia_1, csv_dia_2, csv_dia_3, csv_dia_4, csv_dia_5, csv_dia_6, csv_dia_7]
+        elif param == 'mes':
+            lista_datos = [csv_user, csv_mes_1, csv_mes_2, csv_mes_3, csv_mes_4, csv_mes_5, csv_mes_6, csv_mes_7]
+        elif param == 'ano':
+            lista_datos = [csv_user, csv_ano_1, csv_ano_2, csv_ano_3, csv_ano_4, csv_ano_5, csv_ano_6, csv_ano_7]
         
-        lista_datos = [csv_user, csv_1, csv_2, csv_3, csv_4, csv_5, csv_6, csv_7]
 
         return JsonResponse(lista_datos, safe=False, status=200)
 
