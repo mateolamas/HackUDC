@@ -2,23 +2,25 @@ import '../css/houseInfoForm.css';
 import {useState} from 'react';
 import sendHouse from '../hooks/sendHouse';
 import { Line, Bar } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
 
 
 function HouseInfoForm() {
   const [zone, setZone] = useState('');
   const [csv, setCsv] = useState(null);
   const [respondido, setRespondido] = useState(false);
-  const [chartData, setChartData] = useState(null);
+  const [chartData1, setChartData1] = useState(null);
+  const [chartData2, setChartData2] = useState(null);
 
   const processDataForChart = (data) => {
 
     console.log(data)
     const labels = (data.map(item => item.Hora)); 
     console.log(labels)
-    const values = data.map(item => parseInt(item.Consumo_KWh)); 
+    const values = data.map(item => parseFloat(item.Consumo_KWh)); 
     console.log(values)
 
-    return {
+    const grafConsumo =  {
       labels: labels,
       datasets: [
         {
@@ -30,6 +32,9 @@ function HouseInfoForm() {
         }
       ]
     };
+
+    setChartData1(grafConsumo)
+
   };
 
   const handleHouseForm = async (e) => {
@@ -39,7 +44,9 @@ function HouseInfoForm() {
 
       setRespondido(true);
 
-      setChartData(processDataForChart(JSON.parse(fields)));
+      processDataForChart(JSON.parse(fields))
+
+      console.log(chartData1)
 
       console.log("hola")
     } catch (err) {
@@ -72,10 +79,18 @@ function HouseInfoForm() {
         <button className='sendButton' id='sendHouseButton'>ENVIAR CASA</button>
       </form>}
 
-      {respondido && <div>
-        <h2>Gráfico de Barras</h2>
-        <Bar data={chartData} />
-      </div>}
+      {respondido && (
+        <div className='contenedorGraficas'>
+          <div className='grafica' id='grafica1'>
+            <h2>Gráfico de Barras</h2>
+            <Line data={chartData1} />
+          </div>
+          <div className='grafica' id='grafica2'>
+            <h2>Gráfico de Barras</h2>
+            <Line data={chartData1} />
+          </div>
+        </div>
+      )}
 
     </div>
   );
