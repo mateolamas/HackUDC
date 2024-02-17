@@ -1,0 +1,31 @@
+.Banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: Cambria, bold;
+  background-color:rgb(252, 252, 252);
+  color: #03183e;
+  font-size: 80px;
+  padding-bottom: 10px;
+  border-bottom: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;
+  box-shadow: 5px;
+}
+
+.title {
+  margin-left: 3%;
+}
+
+.logo { 
+  margin-right: 3%;
+  margin-left: 3%;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
+  cursor: pointer;
+  border-color: rgb(190, 172, 145);
+  border: 2px solid;
+}

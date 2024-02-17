@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import HouseInfoForm from './components/HouseInfoForm.js';
+import Banner from './components/Banner.js'
 
 function App() {
   return (
     <div className="App">
+      <Banner/>
       <HouseInfoForm/>
     </div>
   );

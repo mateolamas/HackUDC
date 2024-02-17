@@ -11,8 +11,10 @@ function HouseInfoForm() {
   const [respondido, setRespondido] = useState(false);
   const [chartData1, setChartData1] = useState(null);
   const [chartData2, setChartData2] = useState(null);
+  const [chartData3, setChartData3] = useState(null);
   const [tipoGraf1, setTipoGraf1] = useState(true) //false: linea, true: barras
   const [tipoGraf2, setTipoGraf2] = useState(true) //false: linea, true: barras
+  const [tipoGraf3, setTipoGraf3] = useState(true) //false: linea, true: barras
 
   const processDataForChart = (data) => {
 
@@ -21,7 +23,7 @@ function HouseInfoForm() {
     console.log(labels)
     const values = data.map(item => parseFloat(item.Consumo_KWh)); //consumo en cada hora 
     const medias = data.map(item => parseFloat(item.Consumo)); 
-    const precios = data.map(item => parseFloat(item.Coste)); 
+    const costes = data.map(item => parseFloat(item.Coste)); 
     console.log(values)
 
     const grafConsumo =  {
@@ -57,8 +59,22 @@ function HouseInfoForm() {
       ]
     };
 
+    const grafCoste =  {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Coste de Electricidad',
+          data: costes,
+          backgroundColor: 'rgba(252, 217, 33 , 0.2)', // Color de fondo de las barras
+          borderColor: 'rgb(252, 217, 33 )', // Color del borde de las barras
+          borderWidth: 2 // Ancho del borde de las barras
+        }
+      ]
+    };
+
     setChartData1(grafConsumo)
     setChartData2(grafConsumoMedio)
+    setChartData3(grafCoste)
 
   };
 
@@ -99,11 +115,16 @@ function HouseInfoForm() {
         setTipoGraf1(true)
       else
         setTipoGraf1(false)
-    } else {
+    } else if (numGraf == 2) {
       if (tipoGraf2 == 0)
         setTipoGraf2(true)
       else
         setTipoGraf2(false)
+    } else if (numGraf == 3) {
+      if (tipoGraf3 == 0)
+        setTipoGraf3(true)
+      else
+        setTipoGraf3(false)
     }
   }
 
@@ -131,6 +152,12 @@ function HouseInfoForm() {
             <h2>Consumo frente a media</h2>
             {tipoGraf2 && <Line data={chartData2} />}
             {!tipoGraf2 && <Bar data={chartData2} />}
+          </div>
+          <div className='grafica' id='grafica3'>
+            <button className='botonChangeGraf' onClick={() => handleTipoGraf(3)}>Tipo gráfica</button>
+            <h2>Coste en €</h2>
+            {tipoGraf3 && <Line data={chartData3} />}
+            {!tipoGraf3 && <Bar data={chartData3} />}
           </div>
         </div>
       )}
