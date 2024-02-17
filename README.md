@@ -18,12 +18,13 @@ Descripción: A partir de un dataset de consumos horarios de electricidad de var
 ## Ejecución
 
 Comandos previos para instalar las librerías necesarias:
+```
 pip install pandas
 pip install django-cors-headers
 npm install react-scripts
 npm install react-chartjs-2 chart.js
-
+```
 
 Para ejecutar el proyecto
-- en el directorio backend => python3 manage.py runserver
-- en el directorio frontend => npm start
+- en el directorio backend => ```python3 manage.py runserver```
+- en el directorio frontend => ```npm start```
