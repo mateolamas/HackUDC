@@ -1,7 +1,8 @@
 import '../css/houseInfoForm.css';
 import {useState} from 'react';
 import sendHouse from '../hooks/sendHouse';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
+
 
 function HouseInfoForm() {
   const [zone, setZone] = useState('');
@@ -9,23 +10,13 @@ function HouseInfoForm() {
   const [respondido, setRespondido] = useState(false);
   const [chartData, setChartData] = useState(null);
 
-  const handleHouseForm = async (e) => {
-    e.preventDefault();
-    try {
-      const fields = await sendHouse(zone, csv);
-      setRespondido(true);
-
-      setChartData(processDataForChart(fields));
-
-      console.log("hola")
-    } catch (err) {
-      console.log("caracola")
-    }
-  }
-
   const processDataForChart = (data) => {
-    const labels = data.map(item => item.Hora);
-    const values = data.map(item => item.Consumo); 
+
+    console.log(data)
+    const labels = (data.map(item => item.Hora)); 
+    console.log(labels)
+    const values = data.map(item => parseInt(item.Consumo_KWh)); 
+    console.log(values)
 
     return {
       labels: labels,
@@ -33,13 +24,28 @@ function HouseInfoForm() {
         {
           label: 'Consumo de Electricidad',
           data: values,
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
+          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de las barras
+          borderColor: 'rgb(75, 192, 192)', // Color del borde de las barras
+          borderWidth: 1 // Ancho del borde de las barras
         }
       ]
     };
   };
+
+  const handleHouseForm = async (e) => {
+    e.preventDefault();
+    try {
+      const fields = await sendHouse(zone, csv);
+
+      setRespondido(true);
+
+      setChartData(processDataForChart(JSON.parse(fields)));
+
+      console.log("hola")
+    } catch (err) {
+      console.log("caracola")
+    }
+  }
 
   const handleCSVChange = (e) => {
     const file = e.target.files[0];
@@ -68,7 +74,7 @@ function HouseInfoForm() {
 
       {respondido && <div>
         <h2>Gráfico de Barras</h2>
-        <Line data={chartData} />
+        <Bar data={chartData} />
       </div>}
 
     </div>

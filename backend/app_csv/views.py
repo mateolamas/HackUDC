@@ -18,10 +18,13 @@ def index(request):
         csv_file = request.FILES.get('csv')
         
         df = pd.read_csv(csv_file, sep=';')
-        
+
+        df['Consumo_KWh'] = df['Consumo_KWh'].str.replace(',', '.')
+
         df_cut = df[['Fecha','Hora','Consumo_KWh']]
         
         json_data = df_cut.to_json(orient='records')
+        print(json_data)
         return JsonResponse(json_data, safe=False, status=200)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
