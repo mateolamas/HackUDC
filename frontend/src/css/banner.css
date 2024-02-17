@@ -13,6 +13,26 @@
   box-shadow: 5px;
 }
 
+.Footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: Cambria, bold;
+  background-color:rgb(252, 252, 252);
+  color: #03183e;
+  font-size: 80px;
+  padding-bottom: 10px;
+  border-top: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;
+  box-shadow: 5px;
+}
+
+#contacto {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
 .title {
   margin-left: 3%;
 }

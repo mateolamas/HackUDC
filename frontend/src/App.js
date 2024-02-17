@@ -2,12 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import HouseInfoForm from './components/HouseInfoForm.js';
 import Banner from './components/Banner.js'
+import  Footer from './components/Footer.js'
 
 function App() {
   return (
     <div className="App">
       <Banner/>
       <HouseInfoForm/>
+      <Footer/>
     </div>
   );
 }
