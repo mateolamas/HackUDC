@@ -44,8 +44,28 @@
 }
 
 .grafica {
-  border: rgb(135, 128, 49) 1px solid;
+  background-color:aliceblue;
+  border: rgb(253, 253, 253) 1px solid;
   width: 100%;
   max-width: 50%;
   margin: 2%;
+  border-radius: 3%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+  padding: 3%;
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center; /* Centrar horizontalmente */
+}
+
+.zone {
+  margin: 3%;
+}
+
+.sendButton {
+  
+  margin: 3%;
 }
