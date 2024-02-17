@@ -21,6 +21,7 @@ function HouseInfoForm() {
     console.log(labels)
     const values = data.map(item => parseFloat(item.Consumo_KWh)); //consumo en cada hora 
     const medias = data.map(item => parseFloat(item.Consumo)); 
+    const precios = data.map(item => parseFloat(item.Coste)); 
     console.log(values)
 
     const grafConsumo =  {
@@ -120,13 +121,13 @@ function HouseInfoForm() {
       {respondido && (
         <div className='contenedorGraficas'>
           <div className='grafica' id='grafica1'>
-            <button onClick={() => handleTipoGraf(1)}>Tipo gráfica</button>
+            <button className='botonChangeGraf' onClick={() => handleTipoGraf(1)}>Tipo gráfica</button>
             <h2>Consumo</h2>
             {tipoGraf1 && <Line data={chartData1} />}
             {!tipoGraf1 && <Bar data={chartData1} />}
           </div>
           <div className='grafica' id='grafica2'>
-          <button onClick={() => handleTipoGraf(2)}>Tipo gráfica</button>
+          <button className='botonChangeGraf' onClick={() => handleTipoGraf(2)}>Tipo gráfica</button>
             <h2>Consumo frente a media</h2>
             {tipoGraf2 && <Line data={chartData2} />}
             {!tipoGraf2 && <Bar data={chartData2} />}
