@@ -92,6 +92,7 @@ def index(request):
         csv_user = {'fecha': fecha, 'consumo_total': consumo_total}
 
         df_cut['Coste'] = l * df_cut['Consumo_KWh'].astype(float)
+        df_cut['Precio'] = l
 
         json_data = df_cut.to_json(orient='records')
 

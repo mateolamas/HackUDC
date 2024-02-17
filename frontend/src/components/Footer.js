@@ -4,10 +4,10 @@ import logo from '../img/logo.jpg'
 function Banner() {
 
   return (
-    <div className='Footer'>
-      <div className='title'> Con cariño ❤️ </div>
+    <footer className='Footer'>
+      <div className='title'> Hack ❤️ UDC</div>
       <p id='contacto'>Contacto</p>
-    </div>
+    </footer>
     
   );
 }

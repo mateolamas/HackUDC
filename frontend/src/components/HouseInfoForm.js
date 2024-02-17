@@ -28,6 +28,7 @@ function HouseInfoForm() {
     const values = data.map(item => parseFloat(item.Consumo_KWh)); //consumo en cada hora 
     const medias = data.map(item => parseFloat(item.Consumo)); 
     const costes = data.map(item => parseFloat(item.Coste)); 
+    const precios = data.map(item => parseFloat(item.Precio)); 
     console.log(values)
 
     const grafConsumo =  {
@@ -38,6 +39,13 @@ function HouseInfoForm() {
           data: values,
           backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de las barras
           borderColor: 'rgb(75, 192, 192)', // Color del borde de las barras
+          borderWidth: 2 // Ancho del borde de las barras
+        },
+        {
+          label: 'Precio de electricidad',
+          data: precios,
+          backgroundColor: 'rgba(55, 140, 246, 0.2)', // Color de fondo de las barras
+          borderColor: 'rgb(55, 140, 246)', // Color del borde de las barras
           borderWidth: 2 // Ancho del borde de las barras
         }
       ]
@@ -164,11 +172,11 @@ function HouseInfoForm() {
     <div>
 
       {!respondido && <form className='form' id='houseForm' onSubmit={handleHouseForm}>
-        <input type='text' placeholder='Insert your zone' className='zone' value={zone} onChange={e => setZone(e.target.value)} required/>
+        <h2 id='titulo'>Inserta el csv de tu factura de la luz</h2>
         <input className='text' id='dragNdrop' type='file' accept='.csv'
           onChange={handleCSVChange} onDrop={handleCSVDrop} onDragOver={(e) => e.preventDefault()}
           required/>
-        <button className='sendButton' id='sendHouseButton'>ENVIAR CASA</button>
+        <button className='sendButton' id='sendHouseButton'>ENVIAR</button>
       </form>}
 
       {respondido && <img onClick={() => setRespondido(false)} className='logo' id='logoBack' src={logo} alt='Logo de la compañia' />}
