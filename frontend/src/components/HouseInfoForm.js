@@ -11,13 +11,16 @@ function HouseInfoForm() {
   const [respondido, setRespondido] = useState(false);
   const [chartData1, setChartData1] = useState(null);
   const [chartData2, setChartData2] = useState(null);
+  const [tipoGraf1, setTipoGraf1] = useState(true) //false: linea, true: barras
+  const [tipoGraf2, setTipoGraf2] = useState(true) //false: linea, true: barras
 
   const processDataForChart = (data) => {
 
     console.log(data)
-    const labels = (data.map(item => item.Hora)); 
+    const labels = (data.map(item => item.Hora)); //lista de horas
     console.log(labels)
-    const values = data.map(item => parseFloat(item.Consumo_KWh)); 
+    const values = data.map(item => parseFloat(item.Consumo_KWh)); //consumo en cada hora 
+    const medias = data.map(item => parseFloat(item.Consumo)); 
     console.log(values)
 
     const grafConsumo =  {
@@ -28,12 +31,33 @@ function HouseInfoForm() {
           data: values,
           backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de las barras
           borderColor: 'rgb(75, 192, 192)', // Color del borde de las barras
-          borderWidth: 1 // Ancho del borde de las barras
+          borderWidth: 2 // Ancho del borde de las barras
+        }
+      ]
+    };
+
+    const grafConsumoMedio =  {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Consumo de Electricidad',
+          data: values,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de las barras
+          borderColor: 'rgb(75, 192, 192)', // Color del borde de las barras
+          borderWidth: 2 // Ancho del borde de las barras
+        },
+        {
+          label: 'Consumo medio',
+          data: medias,
+          backgroundColor: 'rgba(252, 33, 108, 0.2)', // Color de fondo de las barras
+          borderColor: 'rgb(252, 33, 108)', // Color del borde de las barras
+          borderWidth: 2 // Ancho del borde de las barras
         }
       ]
     };
 
     setChartData1(grafConsumo)
+    setChartData2(grafConsumoMedio)
 
   };
 
@@ -68,6 +92,20 @@ function HouseInfoForm() {
      }
   }
 
+  const handleTipoGraf = (numGraf) => {
+    if (numGraf == 1) {
+      if (tipoGraf1 == 0)
+        setTipoGraf1(true)
+      else
+        setTipoGraf1(false)
+    } else {
+      if (tipoGraf2 == 0)
+        setTipoGraf2(true)
+      else
+        setTipoGraf2(false)
+    }
+  }
+
   return (
     <div>
 
@@ -82,12 +120,16 @@ function HouseInfoForm() {
       {respondido && (
         <div className='contenedorGraficas'>
           <div className='grafica' id='grafica1'>
-            <h2>Gráfico de Barras</h2>
-            <Line data={chartData1} />
+            <button onClick={() => handleTipoGraf(1)}>Tipo gráfica</button>
+            <h2>Consumo</h2>
+            {tipoGraf1 && <Line data={chartData1} />}
+            {!tipoGraf1 && <Bar data={chartData1} />}
           </div>
           <div className='grafica' id='grafica2'>
-            <h2>Gráfico de Barras</h2>
-            <Line data={chartData1} />
+          <button onClick={() => handleTipoGraf(2)}>Tipo gráfica</button>
+            <h2>Consumo frente a media</h2>
+            {tipoGraf2 && <Line data={chartData2} />}
+            {!tipoGraf2 && <Bar data={chartData2} />}
           </div>
         </div>
       )}
