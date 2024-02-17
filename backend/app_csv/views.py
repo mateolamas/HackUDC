@@ -10,10 +10,13 @@ df = pd.read_csv("../csv/electrodatos.csv")
 consumo_por_hora = df.groupby(df['Hora'])['Consumo'].mean()
 
 # MockUp
-csv_1 = {'fecha' : '14/05/2022', 'consumo_total':'1.765'}
-csv_2 = {'fecha' : '23/12/2019', 'consumo_total':'1.433'}
-csv_3 = {'fecha' : '01/06/2015', 'consumo_total':'3.332'}
-csv_4 = {'fecha' : '18/11/2023', 'consumo_total':'2.566'}
+csv_1 = {'fecha' : '14/02/2023', 'consumo_total': 1.765 }
+csv_2 = {'fecha' : '13/02/2023', 'consumo_total': 1.433 }
+csv_3 = {'fecha' : '12/02/2023', 'consumo_total': 3.332 }
+csv_4 = {'fecha' : '11/02/2023', 'consumo_total': 2.566 }
+csv_5 = {'fecha' : '10/02/2023', 'consumo_total': 1.366 }
+csv_6 = {'fecha' : '09/02/2023', 'consumo_total': 3.066 }
+csv_7 = {'fecha' : '08/02/2023', 'consumo_total': 2.342 }
 csv_user = {}
 
 
@@ -40,7 +43,7 @@ def index(request):
 
     if request.method == 'GET':
         
-        lista_datos = [csv_user, csv_1, csv_2, csv_3]
+        lista_datos = [csv_user, csv_1, csv_2, csv_3, csv_4, csv_5, csv_6, csv_7]
 
         return JsonResponse(lista_datos, safe=False, status=200)
 
