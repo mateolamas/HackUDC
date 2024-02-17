@@ -1,14 +1,18 @@
 import '../css/houseInfoForm.css';
 import {useState} from 'react';
-import sendHouse from '../hooks/sendHouse';
+import {sendHouse, showPastData } from '../hooks/sendHouse';
 import { Line, Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
+import TableComponent from '../hooks/tableComponent';
+import logo from '../img/home.jpg'
 
 
 function HouseInfoForm() {
   const [zone, setZone] = useState('');
   const [csv, setCsv] = useState(null);
   const [respondido, setRespondido] = useState(false);
+  const [pastData, setPastData] = useState(false);
+  const [dataInfo, setDataInfo] = useState(null)
   const [chartData1, setChartData1] = useState(null);
   const [chartData2, setChartData2] = useState(null);
   const [chartData3, setChartData3] = useState(null);
@@ -78,6 +82,16 @@ function HouseInfoForm() {
 
   };
 
+  const processDataForTable = (data) => {
+
+    console.log(data)
+    const labels = (data.map(item => item.Fecha)); //lista de horas
+    console.log(labels)
+    const values = data.map(item => parseFloat(item.Consumo_KWh)); //consumo en cada hora 
+    console.log(values)
+
+  };
+
   const handleHouseForm = async (e) => {
     e.preventDefault();
     try {
@@ -128,6 +142,24 @@ function HouseInfoForm() {
     }
   }
 
+  const handlePastData = async (e) => {
+    e.preventDefault();
+    try {
+      const selectedValue = e.target.elements.dates.value;
+      const fields = await showPastData(selectedValue);
+      console.log(fields)
+
+      setPastData(true);
+      setDataInfo(fields);
+
+      //processDataForTable(JSON.parse(fields))
+
+      console.log("hola")
+    } catch (err) {
+      console.log("caracola")
+    }
+  }
+
   return (
     <div>
 
@@ -139,26 +171,52 @@ function HouseInfoForm() {
         <button className='sendButton' id='sendHouseButton'>ENVIAR CASA</button>
       </form>}
 
+      {respondido && <img onClick={() => setRespondido(false)} className='logo' id='logoBack' src={logo} alt='Logo de la compañia' />}
+
       {respondido && (
         <div className='contenedorGraficas'>
           <div className='grafica' id='grafica1'>
-            <button className='botonChangeGraf' onClick={() => handleTipoGraf(1)}>Tipo gráfica</button>
-            <h2>Consumo</h2>
+            <button className='botonChangeGraf' onClick={() => handleTipoGraf(1)}>Cambiar gráfica</button>
+            <h2>Consumo/hora</h2>
             {tipoGraf1 && <Line data={chartData1} />}
             {!tipoGraf1 && <Bar data={chartData1} />}
           </div>
           <div className='grafica' id='grafica2'>
-          <button className='botonChangeGraf' onClick={() => handleTipoGraf(2)}>Tipo gráfica</button>
+          <button className='botonChangeGraf' onClick={() => handleTipoGraf(2)}>Cambiar gráfica</button>
             <h2>Consumo frente a media</h2>
             {tipoGraf2 && <Line data={chartData2} />}
             {!tipoGraf2 && <Bar data={chartData2} />}
           </div>
           <div className='grafica' id='grafica3'>
-            <button className='botonChangeGraf' onClick={() => handleTipoGraf(3)}>Tipo gráfica</button>
-            <h2>Coste en €</h2>
+            <button className='botonChangeGraf' onClick={() => handleTipoGraf(3)}>Cambiar gráfica</button>
+            <h2>Coste en €/hora</h2>
             {tipoGraf3 && <Line data={chartData3} />}
             {!tipoGraf3 && <Bar data={chartData3} />}
           </div>
+          {pastData && <div id='tabla'>
+            <TableComponent data={dataInfo}/>
+            <form action="#" onSubmit={handlePastData}>
+                <label for="dates">Comparar por </label>
+                  <select name="dates" id="dates" className="select-box">
+                    <option value="dia">Días</option>
+                    <option value="mes">Meses</option>
+                    <option value="ano">Años</option>
+                  </select>
+                  <input type="submit" value="Enviar" className="submit-button"/>
+            </form>
+            </div>}
+          {!pastData && <div className='grafica' id='grafica4'>
+            <h2>Datos pasados</h2>
+            <form action="#" onSubmit={handlePastData}>
+                <label for="dates">Comparar por </label>
+                  <select name="dates" id="dates" className="select-box">
+                    <option value="dia">Días</option>
+                    <option value="mes">Meses</option>
+                    <option value="ano">Años</option>
+                  </select>
+                  <input type="submit" value="Enviar" className="submit-button"/>
+            </form>
+          </div>}
         </div>
       )}
 

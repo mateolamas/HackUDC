@@ -24,4 +24,28 @@ const sendHouse = async (zone, csv) => {
   }
 }
 
-export default sendHouse;
+const showPastData = async (selectedValue) => {
+  const endpointUrlFinal = endpointUrl + '?selected=' + selectedValue
+
+  try {
+    const response = await fetch(endpointUrlFinal, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message)
+      
+      return result
+    }
+
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+    throw error;
+  }
+}
+
+export { sendHouse, showPastData};
